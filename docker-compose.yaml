@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: weather_api
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      - FLASK_ENV=production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+
+  redis:
+    image: redis:alpine
+    container_name: weather_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  celery_worker:
+    build: .
+    container_name: weather_celery
+    restart: always
+    depends_on:
+      - redis
+      - api
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: ["celery", "-A", "tasks", "worker", "--loglevel=info", "--concurrency=4"]
