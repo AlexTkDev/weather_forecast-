@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 geolocator = Nominatim(user_agent="geoapiExercises")
 
-# Исправление ошибок в названии городов
+# Correction of errors in city names
 KNOWN_CITIES = ["Kyiv", "London", "New York", "Tokyo", "Paris", "Berlin"]
 
 
@@ -20,9 +20,9 @@ def normalize_city_name(city):
     return match if score > 80 else None
 
 
-# Получение данных о погоде
+# Getting weather data
 def fetch_weather(city):
-    api_key = random.choice(API_KEYS)  # Выбираем случайный ключ API
+    api_key = random.choice(API_KEYS)  # Select a random API key
     params = {"q": city, "appid": api_key, "units": "metric"}
 
     try:
@@ -48,7 +48,7 @@ def fetch_weather(city):
         return None
 
 
-# Определение региона
+# Definition of the region
 def get_region(city):
     try:
         location = geolocator.geocode(city)
@@ -64,7 +64,7 @@ def get_region(city):
     return "Unknown"
 
 
-# Сохранение результатов
+# Saving the results
 def save_results(task_id, data):
     os.makedirs(f"{TASKS_DIR}", exist_ok=True)
 

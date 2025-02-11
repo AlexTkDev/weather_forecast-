@@ -9,11 +9,7 @@ services:
       - "5000:5000"
     depends_on:
       - redis
-    environment:
-      - FLASK_ENV=production
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    command: ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+    command: [ "gunicorn", "-b", "0.0.0.0:5000", "app:app" ]
 
   redis:
     image: redis:alpine
@@ -29,7 +25,4 @@ services:
     depends_on:
       - redis
       - api
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    command: ["celery", "-A", "tasks", "worker", "--loglevel=info", "--concurrency=4"]
+    command: [ "celery", "-A", "tasks", "worker", "--loglevel=info", "--concurrency=4" ]

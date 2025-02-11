@@ -3,17 +3,17 @@ import logging
 from utils import normalize_city_name, get_region
 from config import API_KEYS
 
-# Используем несколько API-ключей для балансировки запросов
+# Using multiple API keys to balance requests
 api_key_index = 0
 
 def get_weather_data(city):
-    """Получает погоду для города с балансировкой API-ключей"""
+    """Gets weather for a city with API key balancing"""
     global api_key_index
     city = normalize_city_name(city)
     region = get_region(city)
 
     if region == "Unknown":
-        logging.warning(f"Регион города {city} не определен.")
+        logging.warning(f"The region of city {city} is not defined.")
         return None
 
     base_url = "https://api.openweathermap.org/data/2.5/weather"
@@ -24,13 +24,13 @@ def get_weather_data(city):
         response.raise_for_status()
         data = response.json()
 
-        # Переключаем API-ключ при следующем запросе
+        # Switch API key on next request
         api_key_index = (api_key_index + 1) % len(API_KEYS)
 
-        # Фильтруем данные
+        # Filtering data
         temperature = data.get("main", {}).get("temp")
         if temperature is None or not (-50 <= temperature <= 50):
-            logging.warning(f"Температура в городе {city} невалидна: {temperature}")
+            logging.warning(f"Temperature in city {city} is invalid: {temperature}")
             return None
 
         return {
@@ -41,5 +41,5 @@ def get_weather_data(city):
         }
 
     except requests.exceptions.RequestException as e:
-        logging.error(f"Ошибка при запросе погоды для {city}: {e}")
+        logging.error(f"Error while requesting weather for {city}: {e}")
         return None
