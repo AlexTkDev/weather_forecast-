@@ -1,6 +1,6 @@
-# Weather Data Processing System Documentation
+# ⛅️ Weather Data Processing System Documentation
 
-## Overview
+## ⚠️ Overview
 This system provides an asynchronous weather data processing API using Flask, Celery, and Redis. Users submit a list of city names, and the system fetches and processes weather data, classifying results by geographic regions.
 
 ## Features
@@ -89,7 +89,7 @@ WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather"
 TASKS_DIR = "weather_data"
 ```
 
-## Error Handling
+## 🚨 Error Handling
 - Logs errors from external API requests
 - Handles missing or incorrect data
 - Retries failed requests
