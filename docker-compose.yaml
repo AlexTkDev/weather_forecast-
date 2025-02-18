@@ -9,6 +9,11 @@ services:
       - "5000:5000"
     depends_on:
       - redis
+    volumes:
+      - ./weather_data:/app/weather_data
+    environment:
+      - API_KEYS=your_api_key_1,your_api_key_2
+      - REDIS_URL=redis://redis:6379/0
     command: [ "gunicorn", "-b", "0.0.0.0:5000", "app:app" ]
 
   redis:
@@ -25,4 +30,6 @@ services:
     depends_on:
       - redis
       - api
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     command: [ "celery", "-A", "tasks", "worker", "--loglevel=info", "--concurrency=4" ]

@@ -1,4 +1,5 @@
-API_KEYS = ["your_api_key_1", "your_api_key_2"]
-REDIS_URL = "redis://localhost:6379/0"
-WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather"
+import os
+API_KEYS = os.getenv('API_KEYS', '').split(',')
+REDIS_URL = os.getenv('REDIS_URL', "redis://localhost:6379/0")
+WEATHER_API_URL = "https://api.openweathermap.org/data/3.0/onecall"
 TASKS_DIR = "weather_data"
